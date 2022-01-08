@@ -1,0 +1,37 @@
+
+<style> 
+    *{  
+        
+    
+        background: #34495e;
+    
+    }
+    
+    }
+    h1{
+        text-align: center;
+        color: white;
+        text-transform: uppercase;
+        font: 'arial' ;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%)
+    
+    
+    }
+    h3{
+        text-align: center;
+        color: white;
+        text-transform: uppercase;
+        font: 'arial' ;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%)
+    
+    
+    }
+    
+    
+    }
+    </style>
+    

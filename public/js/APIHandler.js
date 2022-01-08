@@ -1,5 +1,8 @@
+
+
+
 // Forms
-const docForm = document.getElementById('doc-form');
+
 const livenessForm = document.getElementById('liveness-form');
 
 // DIVs for SDK output
@@ -36,6 +39,10 @@ window.addEventListener('load', () => {
     }
     console.error("HTTP-Error: " + res.status);
   }
+ 
+
+
+
 
   const getCodeReaderData = async () => {
     const res = await fetch(codereaderURL, {
@@ -63,6 +70,8 @@ window.addEventListener('load', () => {
 
   docForm.addEventListener("submit", (e) => {
     
+    console.log( getSessionID(autocaptureURL) )
+
     let selectedDoc = document.querySelector('#doc-select').value;
 
     autocapture(autocaptureDiv, {
@@ -90,6 +99,32 @@ window.addEventListener('load', () => {
     autocaptureDiv.innerHTML = '';
     // Submit autocapture IMG to view / TODO
     
+    
+    autocapture(autocaptureDiv, {
+      locale: "es",
+      session_id: getSessionID(autocaptureURL),
+      document_type: selectedDoc,
+      document_side: "back",
+      callback: function(captured_token2, image2){
+        ct2 = captured_token2;
+        img2 = image2;
+        sd = selectedDoc;
+        fetch(codereaderURL, {
+          method: 'POST',
+          body: JSON.stringify({token: ct2, docType:sd})
+        }) 
+      },
+      failure: function(error){ alert(error); e.preventDefault();} }
+    );
+
+    const info2 = getCodeReaderData().information_from_document;
+    if (info2.type !== sd){ // check other errors too
+      e.preventDefault();
+    }
+
+    autocaptureDiv.innerHTML = '';
+    // Submit autocapture IMG to view / TODO
+    
     liveness(livenessDiv, {
       locale: "es",
       session_id: getSessionID(livenessURL),
@@ -103,13 +138,25 @@ window.addEventListener('load', () => {
       failure: function(error){ alert(error); e.preventDefault(); }
 
     });
+    liveness(livenessDiv, {
+      locale: "es",
+      session_id: getSessionID(livenessURL),
+      callback: function(token, image){
+        img1 = image; 
+        fetch(faceanddocumentURL, {
+          method: 'POST',
+          body: JSON.stringify({livenessToken: token, autocaptureToken: ct1, selectedDoc: sd})
+        })
+      },
+      failure: function(error){ alert(error); e.preventDefault(); }
 
+    });
     livenessDiv.innerHTML = '';
     // Submit liveness IMG to view / TODO
 
     const biometricResults = getFaceAndDocData().biometric_results;
-    const info2 = getFaceAndDocData().information_from_document;
-    if (info2.type !== sd && biometricResults !== 1){
+    const info3 = getFaceAndDocData().information_from_document;
+    if (info3.type !== sd && biometricResults !== 1){
       e.preventDefault()
     }
     

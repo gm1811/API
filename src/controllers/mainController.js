@@ -2,22 +2,22 @@ const path = require("path")
 
 mainController = {
     home: (req, res) => {
-        res.sendFile(path.join(__dirname, '../views/index.html'));
+        res.render(path.join(__dirname, '../views/index'));
     },
     selectorDeDocumento: (req, res) => {
-        res.sendFile(path.join(__dirname, '../views/selectorDeDocumento.html'));
+        res.render(path.join(__dirname, '../views/selectorDeDocumento.ejs'));
     },
     capturaFrente: (req, res) => {
-        res.sendFile(path.join(__dirname, '../views/capturaFrente.html'));
+        res.render(path.join(__dirname, '../views/capturaFrente.ejs'));
     },
     capturaDorso: (req, res) => {
-        res.sendFile(path.join(__dirname, '../views/capturaDorso.html'));
+        res.render(path.join(__dirname, '../views/capturaDorso.ejs'));
     },
     liveness: (req, res) => {
-        res.sendFile(path.join(__dirname, '../views/liveness.html'));
+        res.render(path.join(__dirname, '../views/liveness.ejs'));
     },
     verificacion: (req, res) => {
-        res.sendFile(path.join(__dirname, '../views/verificacion.html'));
+        res.render(path.join(__dirname, '../views/verificacion.ejs'));
     },
 }
 
